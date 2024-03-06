@@ -10,9 +10,7 @@ public class Inventory {
     private static final int POSITION_OF_ITEM_CATEGORY_IN_LINE = 14;
     private static final int POSITION_OF_ITEM_COUNT_IN_LINE = 11;
     private static RandomAccessFile file;
-
-    //Replace your file path here with file name e.g. "E:\\Programs\\Java\\records.txt"
-    private static final String FILE_NAME = "E:\\Programs\\Java\\Java For Interview\\src\\ims\\records.txt";
+    private static final String FILE_NAME = "records.txt";
 
 
     public static void main(String[] ajiMeraKaddu) {
