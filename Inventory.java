@@ -1,7 +1,11 @@
 package imswithfilehandling;
 
-import java.io.*;
-import java.util.*;
+import java.io.RandomAccessFile;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.Random;
+import java.util.ArrayList;
 
 public class Inventory {
     private final Scanner sc = new Scanner(System.in);
@@ -135,7 +139,7 @@ public class Inventory {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    System.out.println("Displaying done successfully...👍");
+                    System.out.println("\t\t\t\t\t\t\tDisplaying done successfully...👍");
                     break;
 
                 case 7:
@@ -198,7 +202,7 @@ public class Inventory {
         String name = sc.nextLine();
         System.out.print("Enter item category: ");
         String category = sc.nextLine();
-        int positionToSeek = searchItemByNameAndCategoryInFile(name,category);
+        int positionToSeek = searchItemByNameAndCategoryInFile(name, category);
         String itemToString;
         if (positionToSeek == -1) {   //-1 means item not found in file, so we have to write/append the item into the file
             itemToString = "ItemId: " + id.substring(7) + "\n"  //for this 7 look at the generateId method
@@ -408,14 +412,40 @@ public class Inventory {
         if (file.length() < 5) {
             System.out.println("\t⚠️⚠️There is no item in the inventory, Please add some...🙏");
         } else {
-            System.out.println("Displaying all the items of the inventory: ");
+            System.out.println("\t\t\t\t\t\t\tDisplaying all the items of the inventory...👀");
             file.seek(0);
             String line;
+            String header = """
+                    +---------------------------+---------------------------+---------------------------+-----------------+
+                    |   ItemId                  |   ItemName                |   ItemCategory            |   ItemCount     |
+                    +---------------------------+---------------------------+---------------------------+-----------------+""";
+
+            System.out.println(header);
+            int count = 0;
+            String itemId = "", itemName = "", itemCategory = "", itemCount;
+
             while ((line = file.readLine()) != null) {
-                System.out.println("\t" + line);
+                if (count % 4 == 0) {
+                    itemId = line.substring(POSITION_OF_ITEM_ID_IN_LINE);
+                    count++;
+                } else if (count % 4 == 1) {
+                    itemName = line.substring(POSITION_OF_ITEM_NAME_IN_LINE);
+                    count++;
+                } else if (count % 4 == 2) {
+                    itemCategory = line.substring(POSITION_OF_ITEM_CATEGORY_IN_LINE);
+                    count++;
+                } else if (count % 4 == 3) {
+                    itemCount = line.substring(POSITION_OF_ITEM_COUNT_IN_LINE);
+                    count++;
+                    String itemData = """
+                            |\t%-24s|\t%-24s|\t%-24s|\t%-14s|
+                            +---------------------------+---------------------------+---------------------------+-----------------+""";
+                    System.out.printf((itemData) + "%n", itemId, itemName, itemCategory, itemCount);
+                }
             }
         }
     }
+
 
     private static int searchItemByIdInFile(String itemId) throws IOException {
         int positionToSeek = 0;
@@ -434,7 +464,7 @@ public class Inventory {
     private int searchItemByNameAndCategoryInFile(String name, String category) throws IOException {
         int positionToSeek = 0;
         file.seek(positionToSeek);
-        String lineId,lineName, lineCategory;
+        String lineId, lineName, lineCategory;
 
         while ((lineId = file.readLine()) != null) {
             lineName = file.readLine();
