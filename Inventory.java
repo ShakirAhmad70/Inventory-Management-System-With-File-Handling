@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 public class Inventory {
     private final Scanner sc = new Scanner(System.in);
-    private static final int POSITION_OF_ITEM_ID_IN_LINE = 8;
-    private static final int POSITION_OF_ITEM_NAME_IN_LINE = 10;
-    private static final int POSITION_OF_ITEM_CATEGORY_IN_LINE = 14;
-    private static final int POSITION_OF_ITEM_COUNT_IN_LINE = 11;
+    private static final int POSITION_OF_ITEM_ID_IN_LINE = 8;  //"ItemId: ".length();
+    private static final int POSITION_OF_ITEM_NAME_IN_LINE = 10;  //"ItemName: ".length();
+    private static final int POSITION_OF_ITEM_CATEGORY_IN_LINE = 14;  //"ItemCategory: ".length();
+    private static final int POSITION_OF_ITEM_COUNT_IN_LINE = 11;  //"ItemCount: ".length();
     private static RandomAccessFile file;
     private static final String FILE_NAME = "records.txt";
 
